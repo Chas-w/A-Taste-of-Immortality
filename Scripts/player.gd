@@ -17,8 +17,6 @@ enum PC_State{PC_WALK, PC_NULL}
 
 
 @export_category("Camera Variables")
-#@export var cam : Camera3D
-#@export var environment_cam : PhantomCamera3D
 @export var rotation_target : Node3D
 var timer : float
 
@@ -89,8 +87,6 @@ func _set_move_state(next_move_state:int):
 	#check last state
 	match(prev_move_state):
 		Move_State.CHATTING:
-			#cam.set_orthogonal(50,.05,4000)
-			#environment_cam.priority = 100
 			interaction_source.get_child(1).priority = 0
 		pass
 	#check upcoming state
@@ -99,16 +95,12 @@ func _set_move_state(next_move_state:int):
 			#region Setup PC Camera
 			if(interaction_source != null):
 				interaction_source.hover_label.visible = true
-			#environment_cam.priority = 100
-			#cam.set_orthogonal(40,.05,4000)
 			#endregion
 			Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 			_set_PC_state(PC_State.PC_WALK)
 		Move_State.CHATTING:
 			nav_agent.set_target_position(position) #stop the movement, reset the target position
-			#cam.set_perspective(45,.05,4000)
 			interaction_source.get_child(1).priority = 100
-			#environment_cam.priority = 0
 			if(!interaction_source.entered):
 				interaction_source._enter_dialogue()
 			else:
