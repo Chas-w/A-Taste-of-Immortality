@@ -1,0 +1,163 @@
+[gd_scene format=3 uid="uid://bswxwi3ggndcn"]
+
+[ext_resource type="Script" uid="uid://k625y2ohn1lr" path="res://Scripts/database.gd" id="1_crblt"]
+[ext_resource type="Texture2D" uid="uid://qjjxhflxkyob" path="res://Imports/Textures/Temp/Map Temp.jpg" id="2_w614c"]
+[ext_resource type="Script" uid="uid://d7x4q8vaoym" path="res://Scripts/inventory_ui.gd" id="3_scmpp"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="4_e661w"]
+
+[node name="Database" type="Node" unique_id=413423122 node_paths=PackedStringArray("cam", "cam_brain", "inventory_ui", "menu_ui", "save_game", "inventory", "options", "exit_game") groups=["Database"]]
+script = ExtResource("1_crblt")
+cam = NodePath("SubViewportContainer/SubViewport/Camera")
+cam_brain = NodePath("SubViewportContainer/SubViewport/Camera/PhantomCameraHost")
+removable_items = {
+"Item Test": "res://Scenes/Entities/inventory_item.tscn"
+}
+inventory_ui = NodePath("UI/Inventory UI")
+menu_ui = NodePath("UI/Menu UI")
+save_game = NodePath("UI/Menu UI/HBoxContainer/Save Game")
+inventory = NodePath("UI/Menu UI/HBoxContainer/Inventory")
+options = NodePath("UI/Menu UI/HBoxContainer/Options")
+exit_game = NodePath("UI/Menu UI/HBoxContainer/Exit Game")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1446402854]
+
+[node name="Menu UI" type="Control" parent="UI" unique_id=1910699371]
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/Menu UI" unique_id=1849127787]
+layout_mode = 1
+offset_left = 60.0
+offset_top = 88.0
+offset_right = 360.0
+offset_bottom = 388.0
+
+[node name="Inventory" type="Button" parent="UI/Menu UI/HBoxContainer" unique_id=1802174863]
+layout_mode = 2
+text = "Inventory"
+metadata/_edit_use_anchors_ = true
+
+[node name="Save Game" type="Button" parent="UI/Menu UI/HBoxContainer" unique_id=252257668]
+layout_mode = 2
+text = "Quick Save
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Options" type="Button" parent="UI/Menu UI/HBoxContainer" unique_id=537349755]
+layout_mode = 2
+text = "Options
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Exit Game" type="Button" parent="UI/Menu UI/HBoxContainer" unique_id=833662861]
+layout_mode = 2
+text = "Exit Game"
+metadata/_edit_use_anchors_ = true
+
+[node name="Map" type="Panel" parent="UI/Menu UI" unique_id=802512214]
+layout_mode = 0
+offset_left = 552.0
+offset_top = 60.0
+offset_right = 592.0
+offset_bottom = 100.0
+scale = Vector2(13.6399975, 13.266322)
+
+[node name="TextureRect" type="TextureRect" parent="UI/Menu UI/Map" unique_id=1771091632]
+layout_mode = 0
+offset_left = 1.9061587
+offset_top = 1.884471
+offset_right = 1201.9061
+offset_bottom = 1201.8845
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("2_w614c")
+
+[node name="Inventory UI" type="Control" parent="UI" unique_id=1437951676 node_paths=PackedStringArray("database")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+size_flags_horizontal = 4
+script = ExtResource("3_scmpp")
+database = NodePath("../..")
+
+[node name="Inventory Layout" type="GridContainer" parent="UI/Inventory UI" unique_id=507222030]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -981.0
+offset_top = -1478.0001
+offset_right = 1475.0
+offset_bottom = 1482.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.134, 0.134)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+columns = 3
+
+[node name="TextureButton" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=613200962]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton5" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=369925152]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton6" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=1460635042]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton7" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=952701776]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton8" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=1271003032]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton9" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=2098709802]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton10" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=2013132078]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="TextureButton2" type="TextureButton" parent="UI/Inventory UI/Inventory Layout" unique_id=434799235]
+layout_mode = 2
+texture_normal = ExtResource("2_w614c")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1148701466]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=12514252]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Camera" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1086632360]
+transform = Transform3D(1, 0, 0, 0, 0.9993908, 0.03489949, 0, -0.03489949, 0.9993908, -1.46, -0.42702514, 2.0897267)
+top_level = true
+h_offset = 1.5
+current = true
+fov = 84.117065
+
+[node name="PhantomCameraHost" type="Node" parent="SubViewportContainer/SubViewport/Camera" unique_id=2017090500]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("4_e661w")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"

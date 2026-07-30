@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://d273rn50d72ke"]
+
+[ext_resource type="Script" uid="uid://di53yjjlyqk5v" path="res://Scripts/inventory_item.gd" id="1_hwue3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gf0fu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gf0fu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hwue3"]
+
+[node name="Inventory Item" type="Node3D" unique_id=784401574 node_paths=PackedStringArray("interact_label")]
+script = ExtResource("1_hwue3")
+interact_label = NodePath("Interact Prompt")
+
+[node name="Equip Range" type="Area3D" parent="." unique_id=148709383]
+
+[node name="Equip Shape" type="CollisionShape3D" parent="Equip Range" unique_id=1948997065]
+transform = Transform3D(2.105, 0, 0, 0, 2.105, 0, 0, 0, 2.105, 0, 0, 0)
+shape = SubResource("BoxShape3D_gf0fu")
+debug_color = Color(0, 0.6373592, 0.39718482, 0.41960785)
+
+[node name="Inventory Static" type="StaticBody3D" parent="." unique_id=677870109]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Static Collision" type="MeshInstance3D" parent="Inventory Static" unique_id=436178501]
+mesh = SubResource("BoxMesh_gf0fu")
+
+[node name="Static Shape" type="CollisionShape3D" parent="Inventory Static" unique_id=1922160960]
+shape = SubResource("BoxShape3D_hwue3")
+
+[node name="Interact Prompt" type="Label3D" parent="." unique_id=1366394481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5662317, 0)
+billboard = 1
+
+[connection signal="body_entered" from="Equip Range" to="." method="_on_equip_range_body_entered"]
+[connection signal="body_exited" from="Equip Range" to="." method="_on_equip_range_body_exited"]

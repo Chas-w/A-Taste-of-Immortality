@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://pap4eqyqrkwf"]
+
+[ext_resource type="Script" uid="uid://dmda7415k7dn8" path="res://Scripts/player.gd" id="1_ibdy3"]
+[ext_resource type="Texture2D" uid="uid://brws4pti5b0ob" path="res://Imports/Textures/Temp/temp pattern.jpg" id="2_pse8g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fy3mn"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_meram"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ryem"]
+albedo_texture = ExtResource("2_pse8g")
+
+[node name="Player" type="CharacterBody3D" unique_id=1175887378 node_paths=PackedStringArray("nav_agent")]
+script = ExtResource("1_ibdy3")
+nav_agent = NodePath("NavigationAgent3D")
+rotation_speed = 5.0
+move_speed = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1303170742]
+shape = SubResource("CapsuleShape3D_fy3mn")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=556587092]
+mesh = SubResource("CapsuleMesh_meram")
+surface_material_override/0 = SubResource("StandardMaterial3D_3ryem")
+
+[node name="Ground Cast" type="RayCast3D" parent="Body" unique_id=383076444]
+transform = Transform3D(1, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, -0.954, 0)
+debug_shape_thickness = 5
+
+[node name="Climb Checker" type="RayCast3D" parent="Body" unique_id=1255491212]
+transform = Transform3D(0.99999994, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 1, -4.3711385e-08, 0, 5.9604645e-08, -0.45564914)
+collision_mask = 4
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=280187244]

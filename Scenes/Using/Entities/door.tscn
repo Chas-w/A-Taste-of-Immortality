@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://baoaywlbjf36"]
+
+[ext_resource type="Script" uid="uid://db7kehen4nqfh" path="res://Scripts/door.gd" id="1_nuxhq"]
+[ext_resource type="PackedScene" uid="uid://cns0euej5vo6a" path="res://Scenes/Using/Entities/lock_picking.tscn" id="2_uycsl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oqlhh"]
+size = Vector3(1, 1, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_oqlhh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fo5ed"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dyyqa"]
+
+[node name="Door" type="Node3D" unique_id=127991376 node_paths=PackedStringArray("lock_picking", "barrier")]
+transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 0.1, 0, 0, 0)
+script = ExtResource("1_nuxhq")
+lock_picking = NodePath("Lock Picking")
+barrier = NodePath("Static/CollisionShape3D")
+
+[node name="Open Trigger" type="Area3D" parent="." unique_id=482437491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5024343, 0.5080928, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Open Trigger" unique_id=1787327768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.12817383)
+shape = SubResource("BoxShape3D_oqlhh")
+debug_color = Color(0.93919015, 1.49205325e-05, 0.62260175, 0.41960785)
+
+[node name="Static" type="StaticBody3D" parent="." unique_id=1071716382]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5024343, 0.5080928, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Static" unique_id=1307952172]
+mesh = SubResource("BoxMesh_oqlhh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fo5ed")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static" unique_id=719933588]
+shape = SubResource("BoxShape3D_dyyqa")
+
+[node name="Lock Picking" parent="." unique_id=1098444103 instance=ExtResource("2_uycsl")]
+
+[connection signal="body_entered" from="Open Trigger" to="." method="_on_open_trigger_body_entered"]
+[connection signal="body_exited" from="Open Trigger" to="." method="_on_open_trigger_body_exited"]
