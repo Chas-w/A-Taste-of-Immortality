@@ -10,7 +10,7 @@ func _variables():
 var moving : bool 
 
 @export_category("Movement States")
-enum Move_State{POINT_AND_CLICK, CHATTING, INSPECTING, IN_MENU, MOVE_NULL}
+enum Move_State{POINT_AND_CLICK, CHATTING, INSPECTING, MOVE_NULL}
 @export var move_state : Move_State = Move_State.POINT_AND_CLICK
 enum PC_State{PC_WALK, PC_NULL}
 @export var pc_state : PC_State = PC_State.PC_WALK
@@ -39,8 +39,32 @@ func _ready():
 	_set_move_state(Move_State.POINT_AND_CLICK) #setup for point and click
 	for game_obj in get_tree().get_nodes_in_group("Database"): #assign database
 		database = game_obj
+	database.access_player = self
+	status_dictionary = database._JSON_to_dictionary(database.player_status_path)
+	inventory_dictionary = database._JSON_to_dictionary(database.player_inventory_path)
+		
+	#spawn location
+	position = Vector3(status_dictionary.Position[0],status_dictionary.Position[1],status_dictionary.Position[2])
+
+func _handle_saving():
+	if (database.saving):
+		_update_JSON_data()
+		print("SAVING...")
+		autosave_timer = time_to_autosave_max
+		database.saving = false
+	if (database.autosave_enabled):
+		_handle_autosave()
+
+func _handle_autosave():
+	if(autosave_timer >= 0):
+		autosave_timer -= get_process_delta_time()
+	else:
+		_update_JSON_data()
+		print("AUTOSAVING...")
+		autosave_timer = time_to_autosave_max
 
 func _process(delta):
+	_handle_saving()
 	match(move_state):
 		Move_State.POINT_AND_CLICK:
 			match(pc_state):
@@ -60,8 +84,6 @@ func _process(delta):
 			pass
 		Move_State.INSPECTING:
 			pass
-		Move_State.IN_MENU:
-			pass
 
 func _move_to_target(delta,speed): #setting point and click movement parameters
 	var target_position = nav_agent.get_next_path_position()
@@ -79,7 +101,17 @@ func _move_to_target(delta,speed): #setting point and click movement parameters
 	velocity = direction * speed
 	move_and_slide()
 
-#region state machines
+func _handle_adding_inventory(): ##handles adding an item to your inventory
+	if(Input.is_action_just_pressed("interact")):
+		if(can_pickup && target_item != null):
+			if(!target_item.permanent):
+				inventory_dictionary.Removable.append(target_item.ID)
+				target_item.queue_free()
+				can_pickup = false
+			else:
+				#this is called when the player grabs a permanent item
+				pass
+
 func _set_move_state(next_move_state:int):
 	var prev_move_state := move_state
 	move_state = next_move_state
@@ -92,10 +124,8 @@ func _set_move_state(next_move_state:int):
 	#check upcoming state
 	match(next_move_state):
 		Move_State.POINT_AND_CLICK:
-			#region Setup PC Camera
 			if(interaction_source != null):
 				interaction_source.hover_label.visible = true
-			#endregion
 			Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 			_set_PC_state(PC_State.PC_WALK)
 		Move_State.CHATTING:
@@ -108,6 +138,7 @@ func _set_move_state(next_move_state:int):
 			pass
 		Move_State.INSPECTING:
 			pass
+
 func _set_PC_state(next_PC_state:int):
 	var prev_PC_state := pc_state
 	pc_state = next_PC_state
@@ -119,11 +150,10 @@ func _set_PC_state(next_PC_state:int):
 	match(next_PC_state):
 		pass
 	pass
-#endregion
 
 func _input(event):
 	#region Checking for Point and Click Ability
-	if(Input.is_action_just_pressed("click") &&  move_state != Move_State.CHATTING && move_state != Move_State.INSPECTING):
+	if(Input.is_action_just_pressed("click") &&  move_state != Move_State.CHATTING && move_state != Move_State.INSPECTING && !database.pause_game):
 		var mouse_pos = get_viewport().get_mouse_position() #mouse position in world space
 		var ray_length = 1000 #length of raycast shot from mouse position
 		var from = database.cam.project_ray_origin(mouse_pos) #starting position of raycast
@@ -167,4 +197,3 @@ func _update_JSON_data():
 	
 	database._save_JSON_file(database.player_status_path, status_dictionary)
 	database._save_JSON_file(database.player_inventory_path, inventory_dictionary)
-	
