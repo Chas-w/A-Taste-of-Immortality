@@ -7,6 +7,9 @@
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="8_h0hs0"]
 [ext_resource type="Texture2D" uid="uid://brws4pti5b0ob" path="res://Imports/Textures/Temp/temp pattern.jpg" id="8_k7acu"]
 
+[sub_resource type="Resource" id="Resource_0x5ul"]
+script = ExtResource("8_h0hs0")
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5a7ea"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -200,9 +203,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ggk5k")
 
-[sub_resource type="Resource" id="Resource_0x5ul"]
-script = ExtResource("8_h0hs0")
-
 [sub_resource type="NavigationMesh" id="NavigationMesh_ediir"]
 vertices = PackedVector3Array(-24, -13.1516075, -24, -24, -13.1516075, 24, 24, -13.1516075, 24, 24, -13.1516075, -24)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
@@ -215,6 +215,12 @@ polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
 albedo_color = Color(0.40363345, 0.44684935, 0.29901007, 1)
 
 [node name="World" type="Node3D" unique_id=1250724674]
+
+[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=277054255]
+transform = Transform3D(0.801483, 0.1473949, -0.57956874, 7.450581e-09, 0.96914995, 0.24647254, 0.59801763, -0.19754353, 0.77675724, -14.885364, 3.3746285, 9.711536)
+script = ExtResource("7_6jddi")
+tween_resource = SubResource("Resource_0x5ul")
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=527794572]
 
@@ -281,12 +287,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_0fj1v")
 transform = Transform3D(0.023419963, 0, 0, 0, -0.00069901824, 0.01923196, 0, -0.01923196, -0.00069901824, 2.1827873e-11, 0.004122675, -0.0010907919)
 mesh = SubResource("ArrayMesh_fu7tx")
 surface_material_override/0 = SubResource("StandardMaterial3D_0fj1v")
-
-[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=277054255]
-transform = Transform3D(0.6975903, -0.2044769, 0.68670005, 0, 0.9584132, 0.2853842, -0.7164969, -0.19908126, 0.66857976, 0, 9.45449, 27.479145)
-script = ExtResource("7_6jddi")
-tween_resource = SubResource("Resource_0x5ul")
-metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
 [node name="Player" parent="." unique_id=1175887378 instance=ExtResource("6_ediir")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.359993, 0)
